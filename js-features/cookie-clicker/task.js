@@ -5,14 +5,18 @@ let speedCookie = document.getElementById('clicker__speed'); // В задани�
 let clicksPerSecond = speedCookie.textContent;
 let seconds = 0;
 
-let intervalId = setInterval(function () {
-    seconds++;
-    speedCookie.textContent = (seconds / counter.textContent).toFixed(2);
-}, 1000)
+let lastClickTime = 0;
 
 cookie.addEventListener('mousedown', function() {
     cookie.width = 300;
     counter.textContent++
+    const currentTime = performance.now(); 
+    if (lastClickTime !== 0) {
+        const timeBetweenClicks = (currentTime - lastClickTime) / 1000; 
+        const clicksPerSecond = 1 / timeBetweenClicks; 
+        speedCookie.textContent = clicksPerSecond.toFixed(2);
+    }
+    lastClickTime = currentTime;
 });
 
 cookie.addEventListener('mouseup', function() {
